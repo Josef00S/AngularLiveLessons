@@ -17,7 +17,7 @@ export class RecipeListComponent implements OnInit {
   recipes: Recipe[];
 
   constructor(private router: Router,
-    private recipe_service: RecipeService) { }
+              private recipe_service: RecipeService) { }
 
   ngOnInit() {
     this.recipe_service.getAllRecipes()
