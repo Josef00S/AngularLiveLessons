@@ -8,10 +8,9 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-edit-new-recipe',
   templateUrl: './edit-new-recipe.component.html',
-  styleUrls: ['./edit-new-recipe.component.css']
+  styleUrls: ['./edit-new-recipe.component.css'],
 })
 export class EditNewRecipeComponent implements OnInit {
-
   cover_photo_for_viewing: any = '/assets/emptybowl.jpg';
   instruction_photos_for_viewing: any[];
 
@@ -19,30 +18,40 @@ export class EditNewRecipeComponent implements OnInit {
   instruction_photos_for_upload: File[];
 
   recipe_in_progress: Recipe;
+  disable_add_recipe_button: boolean;
 
   constructor(private router: Router, private recipe_service: RecipeService) {
     this.recipe_in_progress = Recipe.createBlank();
-
+    this.disable_add_recipe_button = true;
     this.instruction_photos_for_viewing = [];
     this.instruction_photos_for_upload = [];
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   addIngredientPressed(): void {
     if (!this.recipe_in_progress.ingredients) {
-      this.recipe_in_progress.ingredients = [ { ingredient: null, measure: null } ];
+      this.recipe_in_progress.ingredients = [
+        { ingredient: null, measure: null },
+      ];
     } else {
-      this.recipe_in_progress.ingredients.push({ ingredient: null, measure: null });
+      this.recipe_in_progress.ingredients.push({
+        ingredient: null,
+        measure: null,
+      });
     }
   }
 
   addInstructionPressed(): void {
     if (!this.recipe_in_progress.instructions) {
-      this.recipe_in_progress.instructions = [ { instruction: null, photo: null } ];
+      this.recipe_in_progress.instructions = [
+        { instruction: null, photo: null },
+      ];
     } else {
-      this.recipe_in_progress.instructions.push({ instruction: null, photo: null });
+      this.recipe_in_progress.instructions.push({
+        instruction: null,
+        photo: null,
+      });
     }
   }
 
@@ -81,13 +90,28 @@ export class EditNewRecipeComponent implements OnInit {
   }
 
   addRecipeClicked(): void {
-    this.recipe_service.addRecipe(this.recipe_in_progress, {
-      cover_photo: this.cover_photo_for_upload,
-      instruction_photos: this.instruction_photos_for_upload
-    })
-        .subscribe((recipe) => {
-          this.router.navigate(['/recipes', recipe.id]);
-        });
+    this.recipe_service
+      .addRecipe(this.recipe_in_progress, {
+        cover_photo: this.cover_photo_for_upload,
+        instruction_photos: this.instruction_photos_for_upload,
+      })
+      .subscribe((recipe) => {
+        this.router.navigate(['/recipes', recipe.id]);
+      });
   }
+  validateForm(): void {
+    this.disable_add_recipe_button = true;
+    if (!this.recipe_in_progress.title.length) {
+      return;
+    }
 
+    if (!this.recipe_in_progress.description.length) {
+      return;
+    }
+    console.log(this.recipe_in_progress.title);
+
+
+
+    this.disable_add_recipe_button = false;
+  }
 }
