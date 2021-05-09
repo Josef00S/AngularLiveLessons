@@ -52,15 +52,15 @@ export class RecipeService {
         const formData: FormData = new FormData();
         let have_image = false;
 
-        if (files['cover_photo']) {
-          const file: File = files['cover_photo'];
+        if (files.cover_photo) {
+          const file: File = files.cover_photo;
           formData.append('cover_photo', file, file.name);
           have_image = true;
         }
-        if (files['instruction_photos']) {
-          for (let i = 0; i < files['instruction_photos'].length; i++) {
-            if (files['instruction_photos'][i]) {
-              const file: File = files['instruction_photos'][i];
+        if (files.instruction_photos) {
+          for (let i = 0; i < files.instruction_photos.length; i++) {
+            if (files.instruction_photos[i]) {
+              const file: File = files.instruction_photos[i];
               formData.append('preparation_photos_' + i, file, file.name);
               have_image = true;
             }
